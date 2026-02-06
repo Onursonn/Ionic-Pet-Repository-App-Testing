@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
 import AnimalCard, { Animal } from './components/AnimalCard';
+import AddPetModal from './components/AddPetModal';
 import {
   AnimalRecord,
   seedAnimalsIfEmpty
@@ -9,6 +10,7 @@ import {
 
 const Home: React.FC = () => {
   const [animals, setAnimals] = useState<Animal[]>([]);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -83,9 +85,10 @@ const Home: React.FC = () => {
 
       {/* ── Floating Action Button ── */}
       <button
+        onClick={() => setShowAddModal(true)}
         className="anim-fab fixed bottom-6 right-6 z-50 flex h-14 w-14 cursor-pointer
           items-center justify-center rounded-full
-          bg-gradient-to-br from-[#E6007E] to-[#FF4DA6]
+          bg-linear-to-br from-[#E6007E] to-[#FF4DA6]
           text-white shadow-xl shadow-[#E6007E]/30
           transition-all duration-200 ease-out
           hover:scale-105 hover:shadow-2xl hover:shadow-[#E6007E]/40
@@ -108,6 +111,13 @@ const Home: React.FC = () => {
           <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
       </button>
+
+      {/* ── Add Pet Modal ── */}
+      <AddPetModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onAdded={(updated) => setAnimals(updated)}
+      />
     </IonPage>
   );
 };

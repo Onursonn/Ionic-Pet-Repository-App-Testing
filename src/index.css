@@ -4,11 +4,17 @@
    Global Font
    ───────────────────────────────────────────── */
 :root {
-  --ion-font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ion-font-family:
+    'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 body {
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family:
+    'Outfit',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -17,7 +23,7 @@ body {
    Evovell Toolbar (navbar)
    ───────────────────────────────────────────── */
 .evo-toolbar {
-  --background: #143D30;
+  --background: #143d30;
   --border-width: 0;
   --padding-start: 0;
   --padding-end: 0;
@@ -26,7 +32,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   .evo-toolbar {
-    --background: #0B1F18;
+    --background: #0b1f18;
   }
 }
 
@@ -34,12 +40,12 @@ body {
    Page Background (via IonContent)
    ───────────────────────────────────────────── */
 ion-content.evo-content {
-  --background: #F4F6F5;
+  --background: #f4f6f5;
 }
 
 @media (prefers-color-scheme: dark) {
   ion-content.evo-content {
-    --background: #0C1714;
+    --background: #0c1714;
   }
 }
 
@@ -89,4 +95,174 @@ ion-content.evo-content {
 
 .anim-heading {
   animation: evo-heading-reveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* ─────────────────────────────────────────────
+   Add Pet Modal
+   ───────────────────────────────────────────── */
+
+/* Toolbar */
+.add-pet-toolbar {
+  --background: #ffffff;
+  --border-width: 0;
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --min-height: 52px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  .add-pet-toolbar {
+    --background: #0f2119;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* Title */
+.add-pet-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .add-pet-title {
+    color: #ffffff;
+  }
+}
+
+/* Close button */
+.add-pet-close-btn {
+  --color: #6b7280;
+  font-size: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .add-pet-close-btn {
+    --color: #9ca3af;
+  }
+}
+
+/* Save button */
+.add-pet-save-btn {
+  --color: #e6007e;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.add-pet-save-btn[disabled] {
+  --color: #d1d5db;
+}
+
+@media (prefers-color-scheme: dark) {
+  .add-pet-save-btn[disabled] {
+    --color: #4b5563;
+  }
+}
+
+/* Content background */
+.add-pet-content {
+  --background: #f4f6f5;
+}
+
+@media (prefers-color-scheme: dark) {
+  .add-pet-content {
+    --background: #0c1714;
+  }
+}
+
+/* Field wrapper */
+.add-pet-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Labels */
+.add-pet-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  padding-left: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .add-pet-label {
+    color: #9ca3af;
+  }
+}
+
+/* Input styling */
+.add-pet-input {
+  --background: #ffffff;
+  --border-radius: 14px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  --placeholder-color: #9ca3af;
+  --color: #1a1a1a;
+  --highlight-color-focused: transparent;
+  --highlight-color-valid: transparent;
+  --highlight-color-invalid: transparent;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.2s ease;
+}
+
+.add-pet-input:focus-within {
+  border-color: #e6007e;
+  box-shadow: 0 0 0 3px rgba(230, 0, 126, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .add-pet-input {
+    --background: #162b23;
+    --color: #ffffff;
+    --placeholder-color: #6b7280;
+    border-color: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .add-pet-input:focus-within {
+    border-color: #e6007e;
+    box-shadow: 0 0 0 3px rgba(230, 0, 126, 0.15);
+  }
+}
+
+/* Datetime wheel picker */
+.add-pet-datetime {
+  --background: #ffffff;
+  --wheel-highlight-background: rgba(230, 0, 126, 0.06);
+  --wheel-fade-background-rgb: 244, 246, 245;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  padding: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .add-pet-datetime {
+    --background: #162b23;
+    --wheel-highlight-background: rgba(230, 0, 126, 0.1);
+    --wheel-fade-background-rgb: 12, 23, 20;
+    border-color: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+  }
+}
+
+/* Modal handle bar */
+.add-pet-modal ion-modal {
+  --border-radius: 20px 20px 0 0;
+}
+
+ion-modal.add-pet-modal {
+  --border-radius: 20px 20px 0 0;
 }
