@@ -5,11 +5,16 @@
 /.pnp
 .pnp.js
 
+/.cursor
+
+
 # testing
 /coverage
 
 # production
 /dist
+
+SKILL.md
 
 # misc
 .DS_Store
