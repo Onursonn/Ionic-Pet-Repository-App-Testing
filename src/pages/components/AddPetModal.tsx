@@ -11,7 +11,7 @@ import {
   IonButtons,
   IonIcon,
 } from '@ionic/react';
-import { closeOutline } from 'ionicons/icons';
+import { closeOutline, cameraOutline, closeCircleOutline } from 'ionicons/icons';
 import { addAnimal, AnimalRecord } from '../../lib/animalsStorage';
 import { Animal } from './AnimalCard';
 
@@ -27,8 +27,10 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
   const [weight, setWeight] = useState('');
   const [birthdate, setBirthdate] = useState<string>(new Date().toISOString());
   const [saving, setSaving] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const modal = useRef<HTMLIonModalElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isValid = name.trim() !== '' && breed.trim() !== '' && weight.trim() !== '';
 
@@ -37,6 +39,56 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
     setBreed('');
     setWeight('');
     setBirthdate(new Date().toISOString());
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const convertFileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleImageSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Image size must be less than 2MB');
+      return;
+    }
+
+    try {
+      const dataUrl = await convertFileToDataUrl(file);
+      setImagePreview(dataUrl);
+    } catch (error) {
+      console.error('Error reading image:', error);
+      alert('Failed to load image. Please try again.');
+    }
+  };
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImageRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleSave = async () => {
@@ -50,6 +102,7 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
         breed: breed.trim(),
         weightKg: parseFloat(weight),
         birthdateIso: birthdate,
+        imageDataUrl: imagePreview || undefined,
       };
 
       const updated = await addAnimal(record);
@@ -109,32 +162,81 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
       {/* ── Form Content ── */}
       <IonContent className="add-pet-content">
         <div className="mx-auto max-w-lg px-5 pt-6 pb-10">
-          {/* Avatar placeholder */}
+          {/* Avatar placeholder with image upload */}
           <div className="mb-8 flex justify-center">
-            <div
-              className="flex h-20 w-20 items-center justify-center rounded-full
-                bg-linear-to-br from-[#E6007E]/10 to-[#E6007E]/20
-                dark:from-[#E6007E]/20 dark:to-[#E6007E]/30
-                ring-2 ring-[#E6007E]/15 dark:ring-[#E6007E]/25"
-            >
-              {name.trim() ? (
-                <span className="text-[28px] font-semibold text-[#E6007E]">
-                  {name.trim().charAt(0).toUpperCase()}
-                </span>
-              ) : (
-                <svg
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#E6007E"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+            <div className="relative">
+              <div
+                onClick={handleImageClick}
+                className="relative flex h-20 w-20 cursor-pointer items-center justify-center rounded-full
+                  bg-linear-to-br from-[#E6007E]/10 to-[#E6007E]/20
+                  dark:from-[#E6007E]/20 dark:to-[#E6007E]/30
+                  ring-2 ring-[#E6007E]/15 dark:ring-[#E6007E]/25
+                  transition-all duration-200 hover:ring-[#E6007E]/30 dark:hover:ring-[#E6007E]/40
+                  overflow-hidden group"
+              >
+                {imagePreview ? (
+                  <>
+                    <img
+                      src={imagePreview}
+                      alt="Pet preview"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-200 group-hover:bg-black/30">
+                      <IonIcon
+                        icon={cameraOutline}
+                        className="text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                        style={{ fontSize: '24px' }}
+                      />
+                    </div>
+                  </>
+                ) : name.trim() ? (
+                  <span className="text-[28px] font-semibold text-[#E6007E]">
+                    {name.trim().charAt(0).toUpperCase()}
+                  </span>
+                ) : (
+                  <>
+                    <svg
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#E6007E"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="transition-opacity duration-200 group-hover:opacity-70"
+                    >
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      <IonIcon
+                        icon={cameraOutline}
+                        className="text-[#E6007E]"
+                        style={{ fontSize: '20px' }}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+              {imagePreview && (
+                <button
+                  onClick={handleImageRemove}
+                  className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full
+                    bg-red-500 text-white shadow-lg transition-all duration-200
+                    hover:bg-red-600 hover:scale-110 active:scale-95"
+                  aria-label="Remove image"
                 >
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
+                  <IonIcon icon={closeCircleOutline} className="text-sm" />
+                </button>
               )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageSelect}
+                className="hidden"
+                aria-label="Select pet image"
+              />
             </div>
           </div>
 
