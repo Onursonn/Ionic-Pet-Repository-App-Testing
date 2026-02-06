@@ -10,9 +10,11 @@ import {
   IonDatetime,
   IonButtons,
   IonIcon,
+  useIonToast,
 } from '@ionic/react';
 import { closeOutline, cameraOutline, closeCircleOutline } from 'ionicons/icons';
 import { addAnimal, AnimalRecord } from '../../lib/animalsStorage';
+import { convertFileToBase64 } from '../../lib/imageUtils';
 import { Animal } from './AnimalCard';
 
 interface AddPetModalProps {
@@ -20,6 +22,14 @@ interface AddPetModalProps {
   onClose: () => void;
   onAdded: (animals: Animal[]) => void;
 }
+
+const parseWeight = (value: string): number | null => {
+  const trimmed = value.trim();
+  if (trimmed === '') return null;
+  const parsed = parseFloat(trimmed);
+  if (Number.isNaN(parsed) || parsed <= 0) return null;
+  return parsed;
+};
 
 const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) => {
   const [name, setName] = useState('');
@@ -29,10 +39,12 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
   const [saving, setSaving] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+  const [presentToast] = useIonToast();
   const modal = useRef<HTMLIonModalElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const isValid = name.trim() !== '' && breed.trim() !== '' && weight.trim() !== '';
+  const parsedWeight = parseWeight(weight);
+  const isValid = name.trim() !== '' && breed.trim() !== '' && parsedWeight !== null;
 
   const resetForm = () => {
     setName('');
@@ -45,37 +57,26 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
     }
   };
 
-  const convertFileToDataUrl = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
   const handleImageSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Please select a valid image file');
+      presentToast({ message: 'Please select a valid image file.', duration: 3000, color: 'warning' });
       return;
     }
 
-    // Validate file size (max 5MB)
     if (file.size > 2 * 1024 * 1024) {
-      alert('Image size must be less than 2MB');
+      presentToast({ message: 'Image size must be less than 2 MB.', duration: 3000, color: 'warning' });
       return;
     }
 
     try {
-      const dataUrl = await convertFileToDataUrl(file);
+      const dataUrl = await convertFileToBase64(file);
       setImagePreview(dataUrl);
     } catch (error) {
       console.error('Error reading image:', error);
-      alert('Failed to load image. Please try again.');
+      presentToast({ message: 'Failed to load image. Please try again.', duration: 3000, color: 'danger' });
     }
   };
 
@@ -92,7 +93,7 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
   };
 
   const handleSave = async () => {
-    if (!isValid || saving) return;
+    if (!isValid || saving || parsedWeight === null) return;
 
     setSaving(true);
     try {
@@ -100,7 +101,7 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
         id: crypto.randomUUID(),
         name: name.trim(),
         breed: breed.trim(),
-        weightKg: parseFloat(weight),
+        weightKg: parsedWeight,
         birthdateIso: birthdate,
         imageDataUrl: imagePreview || undefined,
       };
@@ -118,6 +119,9 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
       onAdded(mapped);
       resetForm();
       onClose();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to save pet. Please try again.';
+      presentToast({ message, duration: 3000, color: 'danger' });
     } finally {
       setSaving(false);
     }

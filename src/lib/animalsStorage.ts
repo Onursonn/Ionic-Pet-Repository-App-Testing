@@ -8,7 +8,7 @@ const getStorage = async (): Promise<Storage> => {
   if (!ready) {
     ready = storage.create();
   }
-  return storage;
+  return ready;
 };
 
 export type AnimalRecord = {
@@ -23,13 +23,23 @@ export type AnimalRecord = {
 const KEY = 'animals';
 
 export const getAnimals = async (): Promise<AnimalRecord[]> => {
-  const store = await getStorage();
-  return (await store.get(KEY)) ?? [];
+  try {
+    const store = await getStorage();
+    return (await store.get(KEY)) ?? [];
+  } catch (error) {
+    console.error('Failed to read animals from storage:', error);
+    throw new Error('Could not load your pets. Please try again.');
+  }
 };
 
 export const saveAnimals = async (animals: AnimalRecord[]): Promise<void> => {
-  const store = await getStorage();
-  await store.set(KEY, animals);
+  try {
+    const store = await getStorage();
+    await store.set(KEY, animals);
+  } catch (error) {
+    console.error('Failed to save animals to storage:', error);
+    throw new Error('Could not save pet data. Please try again.');
+  }
 };
 
 export const addAnimal = async (
@@ -87,7 +97,7 @@ export const seedAnimalsIfEmpty = async (): Promise<AnimalRecord[]> => {
 const seed: AnimalRecord[] = [
   {
     id: 'seed-bello2-001',
-    name: 'Bello2',
+    name: 'Bello',
     breed: 'Golden Retriever',
     weightKg: 28,
     birthdateIso: new Date(2020, 2, 15).toISOString(),

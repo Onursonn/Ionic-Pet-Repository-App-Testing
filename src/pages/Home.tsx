@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonToolbar, useIonToast } from '@ionic/react';
 import AnimalCard, { Animal } from './components/AnimalCard';
 import AddPetModal from './components/AddPetModal';
 import {
@@ -12,21 +12,28 @@ const Home: React.FC = () => {
   const [animals, setAnimals] = useState<Animal[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
 
+  const [presentToast] = useIonToast();
+
   useEffect(() => {
     const load = async () => {
-      const records: AnimalRecord[] = await seedAnimalsIfEmpty();
-      const mapped: Animal[] = records.map((record) => ({
-        name: record.name,
-        breed: record.breed,
-        weightKg: record.weightKg,
-        birthdate: new Date(record.birthdateIso),
-        image: record.imageDataUrl
-      }));
-      setAnimals(mapped);
+      try {
+        const records: AnimalRecord[] = await seedAnimalsIfEmpty();
+        const mapped: Animal[] = records.map((record) => ({
+          name: record.name,
+          breed: record.breed,
+          weightKg: record.weightKg,
+          birthdate: new Date(record.birthdateIso),
+          image: record.imageDataUrl
+        }));
+        setAnimals(mapped);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to load pets.';
+        presentToast({ message, duration: 4000, color: 'danger' });
+      }
     };
 
     load();
-  }, []);
+  }, [presentToast]);
 
   return (
     <IonPage>
