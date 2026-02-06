@@ -50,11 +50,11 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-    <IonRouterOutlet>
+      <IonRouterOutlet>
           <Route path="/">
             <Home />
           </Route>
-        </IonRouterOutlet>
+      </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
 );
