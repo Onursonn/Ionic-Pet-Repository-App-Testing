@@ -87,7 +87,7 @@ const Home: React.FC = () => {
       <button
         onClick={() => setShowAddModal(true)}
         className="anim-fab fixed bottom-6 right-6 z-50 flex h-14 w-14 cursor-pointer
-          items-center justify-center rounded-full
+          items-center justify-center rounded-full!
           bg-linear-to-br from-[#E6007E] to-[#FF4DA6]
           text-white shadow-xl shadow-[#E6007E]/30
           transition-all duration-200 ease-out
