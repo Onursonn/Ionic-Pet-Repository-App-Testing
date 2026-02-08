@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, useIonToast } from '@ionic/react';
-import AnimalCard, { Animal } from './components/AnimalCard';
+import AnimalCard, { Animal } from './components/cards/AnimalCard';
 import AddPetModal from './components/AddPetModal';
 import {
   AnimalRecord,
@@ -80,7 +80,7 @@ const Home: React.FC = () => {
             {animals.map((animal, index) => (
               <div
                 key={index}
-                className="anim-fade-in-up"
+                className="anim-fade-in-up "
                 style={{ animationDelay: `${index * 80}ms` }}
               >
                 <AnimalCard animal={animal} />

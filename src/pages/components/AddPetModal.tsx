@@ -15,7 +15,7 @@ import {
 import { closeOutline, cameraOutline, closeCircleOutline } from 'ionicons/icons';
 import { addAnimal, AnimalRecord } from '../../lib/animalsStorage';
 import { convertFileToBase64 } from '../../lib/imageUtils';
-import { Animal } from './AnimalCard';
+import { Animal } from './cards/AnimalCard';
 
 interface AddPetModalProps {
   isOpen: boolean;
