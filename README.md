@@ -14,22 +14,30 @@ Eine mobile-first Web-App zur Verwaltung von Haustierdaten mit folgenden Feature
 - **Responsive Design**: Optimiert für Mobile und Desktop
 - **Pre-filled Daten**: Demo-Daten (Bello, Luna, Milo) werden beim ersten Start geladen
 
-## Screenshots
+# Screenshots
 
-### Dark & Light Mode
+## Dark & Light Mode
 
-![Dark Mode](assets/Dark-Mobile.png)
-![Light Mode](assets/Light-Mobile.png)
+<img src="assets/dark-mode.png" alt="Dark Mode" width="320" />
+<img src="assets/light-mode.png" alt="Light Mode" width="320" />
 
-### Formular Feature
+## Formular-Feature
 
-![Form Popup](assets/Form-Popup.png)
+<img src="assets/light-add-pet-modal.png" alt="Formular-Popup" width="320" />
+
+## Delete-Flow (mit Verifikation)
+
+<img src="assets/swipe-delete.png" alt="Swipe Delete" width="320" />
+<img src="assets/delete-alert.png" alt="Delete Alert" width="320" />
+<img src="assets/delete-toast.png" alt="Delete Toast" width="320" />
+
+Der Delete-Flow zeigt eine Verifikation: Erst per Swipe löschen, dann per Alert bestätigen, danach erscheint ein Toast.
 
 ## Warum wurde das gebaut?
 
-Diese App entstand als Experiment, um Ionic zu testen und die Entwicklererfahrung zu evaluieren. Die Datenspeicherung wurde bewusst lokal im Browser implementiert, da dies für Testzwecke nicht nur am einfachsten war, sondern auch absolute Datensicherheit gewährleistet.
+Ich wollte Ionic mal testen und schauen, ob der Stack zu mir passt. Neben den Klausuren hatte ich leider nicht viel Zeit, also nur was Kleines. Insgesamt eine gute Erfahrung, mit den pre-styled Components muss ich erst noch Erfahrung sammeln.
 
-Das Design ist ein Mix zwischen Apple's Design-Sprache und den Evovell-Farben mit subtilen Animationen – inspiriert von der Evovell-Website.
+Ich habe eine Pet-Management-App gebaut, weil das gerade gut zum Kontext gepasst hat.
 
 ## Technologie-Stack
 
@@ -44,8 +52,10 @@ Das Design ist ein Mix zwischen Apple's Design-Sprache und den Evovell-Farben mi
 
 ### Kurzfristig
 
+
+- ✅ **Swiping**: Swipe-Delete ist noch etwas unschön
 - ✅ **Testing**: Unit-Tests für Forms und Validierung, Integration-Tests für Datenfluss
-- ✅ **Ios App**: Auseinander setzen mit Capacitor um Ios fähig zu machen.
+- ✅ **iOS App**: Auseinandersetzen mit Capacitor, um iOS-fähig zu machen.
 
 ### Mittelfristig
 
