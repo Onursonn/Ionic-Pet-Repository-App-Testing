@@ -11,8 +11,10 @@ import {
   IonButtons,
   IonIcon,
   useIonToast,
+  IonFab,
+  IonFabButton,
 } from '@ionic/react';
-import { closeOutline, cameraOutline, closeCircleOutline } from 'ionicons/icons';
+import { closeOutline, cameraOutline, closeCircleOutline, add } from 'ionicons/icons';
 import { addAnimal, AnimalRecord } from '../../lib/animalsStorage';
 import { convertFileToBase64 } from '../../lib/imageUtils';
 import { Animal } from './cards/AnimalCard';
@@ -199,28 +201,11 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
                     {name.trim().charAt(0).toUpperCase()}
                   </span>
                 ) : (
-                  <>
-                    <svg
-                      width="28"
-                      height="28"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#E6007E"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="transition-opacity duration-200 group-hover:opacity-70"
-                    >
-                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                      <IonIcon
-                        icon={cameraOutline}
-                        className="text-[#E6007E]"
-                        style={{ fontSize: '20px' }}
-                      />
-                    </div>
-                  </>
+                  <IonIcon
+                    icon={cameraOutline}
+                    className="text-[#E6007E] transition-opacity duration-200 group-hover:opacity-70"
+                    style={{ fontSize: '28px' }}
+                  />
                 )}
               </div>
               {imagePreview && (
@@ -233,6 +218,20 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
                 >
                   <IonIcon icon={closeCircleOutline} className="text-sm" />
                 </button>
+              )}
+              {!imagePreview && (
+                <IonFab
+                  className="absolute -bottom-2 -right-2"
+                  style={{ position: 'absolute' }}
+                >
+                  <IonFabButton
+                    size="small"
+                    onClick={handleImageClick}
+                    aria-label="Foto hinzufügen"
+                  >
+                    <IonIcon icon={add}></IonIcon>
+                  </IonFabButton>
+                </IonFab>
               )}
               <input
                 ref={fileInputRef}

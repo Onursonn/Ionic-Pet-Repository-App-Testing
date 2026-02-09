@@ -23,13 +23,6 @@ ion-card {
   width: 100%;
 }
 
-@media (width >= 768px) {
-  ion-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.1);
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   ion-card {
     background-color: #162b23;
