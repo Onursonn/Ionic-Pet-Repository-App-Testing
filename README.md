@@ -6,7 +6,7 @@ Eine kleine Demo-App zur Verwaltung von Haustieren, gebaut mit Ionic React und l
 
 Eine mobile-first Web-App zur Verwaltung von Haustierdaten mit folgenden Features:
 
-- **Haustier-Verwaltung**: Übersicht aller Tiere mit Name, Rasse, Gewicht, Geburtsdatum und Foto
+- **Haustier-Verwaltung**: Übersicht und Management aller Tiere mit Name, Rasse, Gewicht, Geburtsdatum und Foto
 - **Formular zum Hinzufügen**: Modal mit Validierung für neue Tiere
 - **Bild-Upload**: Unterstützung für Bild-Upload mit Base64-Konvertierung (Web-kompatibel)
 - **Lokale Speicherung**: Verwendung von Ionic Storage (IndexedDB) für absolute Datensicherheit
@@ -45,11 +45,10 @@ Das Design ist ein Mix zwischen Apple's Design-Sprache und den Evovell-Farben mi
 ### Kurzfristig
 
 - ✅ **Testing**: Unit-Tests für Forms und Validierung, Integration-Tests für Datenfluss
-- ✅ **Löschen-Funktion**: Möglichkeit, Tierakten zu löschen
+- ✅ **Ios App**: Auseinander setzen mit Capacitor um Ios fähig zu machen.
 
 ### Mittelfristig
 
-- 🔄 **Native Apps**: Vollständige iOS/Android-Apps mit Capacitor
 - 🔄 **Authentifizierung**: Login/Registrierung für Multi-User-Support
 - 🔄 **Remote-Server**: Synchronisation mit Backend für Cloud-Backup
 - 🔄 **Erweiterte Datenfelder**: Impfungen, Medikamente, Tierarztbesuche, etc.
@@ -66,7 +65,7 @@ Das Design ist ein Mix zwischen Apple's Design-Sprache und den Evovell-Farben mi
 npm install
 
 # Development Server starten
-ionic serve
+npm run dev
 ```
 
 ## Hinweise
