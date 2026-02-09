@@ -56,7 +56,7 @@ const Home: React.FC = () => {
                 </svg>
               </div>
               <span className="text-[18px] font-bold tracking-tight text-white">
-                Evovell
+                PetToVet
               </span>
             </div>
           </div>
