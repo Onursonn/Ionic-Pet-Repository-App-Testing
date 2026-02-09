@@ -51,6 +51,13 @@ export const addAnimal = async (
   return next;
 };
 
+export const deleteAnimal = async (id: string): Promise<AnimalRecord[]> => {
+  const current = await getAnimals();
+  const next = current.filter((animal) => animal.id !== id);
+  await saveAnimals(next);
+  return next;
+};
+
 /**
  * Converts image URLs in seed data to base64 data URLs
  * This allows images to be stored offline in IndexedDB

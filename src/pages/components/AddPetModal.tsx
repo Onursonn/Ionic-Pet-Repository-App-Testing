@@ -109,6 +109,7 @@ const AddPetModal: React.FC<AddPetModalProps> = ({ isOpen, onClose, onAdded }) =
       const updated = await addAnimal(record);
 
       const mapped: Animal[] = updated.map((r) => ({
+        id: r.id,
         name: r.name,
         breed: r.breed,
         weightKg: r.weightKg,

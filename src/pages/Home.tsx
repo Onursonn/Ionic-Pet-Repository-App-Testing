@@ -19,6 +19,7 @@ const Home: React.FC = () => {
       try {
         const records: AnimalRecord[] = await seedAnimalsIfEmpty();
         const mapped: Animal[] = records.map((record) => ({
+          id: record.id,
           name: record.name,
           breed: record.breed,
           weightKg: record.weightKg,
@@ -83,7 +84,7 @@ const Home: React.FC = () => {
                 className="anim-fade-in-up "
                 style={{ animationDelay: `${index * 80}ms` }}
               >
-                <AnimalCard animal={animal} />
+                <AnimalCard animal={animal} onAnimalsChange={setAnimals} />
               </div>
             ))}
           </div>

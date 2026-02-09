@@ -1,18 +1,33 @@
+ion-item-sliding {
+  display: block;
+  width: 100%;
+  background: transparent;
+}
+
+ion-item.card-item::part(native) {
+  padding: 0;
+  background: transparent;
+  width: 100%;
+}
+
 ion-card {
   border-radius: 1rem;
   padding: 1rem;
   background-color: white;
   border: 1px solid rgba(229, 231, 235, 0.7);
-  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: none;
   transition: all 0.3s ease-out;
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
-ion-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.1);
+@media (width >= 768px) {
+  ion-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.1);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,9 +35,5 @@ ion-card:hover {
     background-color: #162b23;
     border-color: rgba(255, 255, 255, 0.07);
     box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.35);
-  }
-
-  ion-card:hover {
-    box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.5);
   }
 }
